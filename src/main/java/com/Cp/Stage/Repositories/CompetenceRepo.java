@@ -8,6 +8,6 @@ import org.springframework.data.repository.ListCrudRepository;
 import java.util.List;
 
 public interface CompetenceRepo extends ListCrudRepository<Competence,Long> {
-    List<Competence> findByprofil(String nom);
+    List<Competence> findByProfil(String nom);
     Competence findByTitre(String titre);
 }

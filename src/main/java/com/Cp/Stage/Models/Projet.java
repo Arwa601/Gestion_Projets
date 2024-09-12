@@ -25,11 +25,11 @@ public class Projet {
     private String details_projet;
 
     @OneToMany(mappedBy = "projet")
-    private List<Profile> profiles=new ArrayList<>();;
+    private List<Profile> profiles;
 
     @OneToMany(mappedBy = "projet")
-    private List<Domaine_Competence> domaines_competences=new ArrayList<>();;
+    private List<Domaine_Competence> domaines_competences;
 
     @OneToMany(mappedBy = "projet")
-    private List<Recommandation_Cours> recommandations_cours=new ArrayList<>();;
+    private List<Recommandation_Cours> recommandations_cours;
 }

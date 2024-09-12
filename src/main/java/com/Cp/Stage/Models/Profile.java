@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Data
 @AllArgsConstructor
@@ -29,12 +31,14 @@ public class Profile {
     @ElementCollection
     private List<String> points_forts ;
 
+    @Column(name = "photo_profile", nullable = true)
     private String photo_profile;
 
     //whoever owns the foreign key column gets the @JoinColumn annotation.
     @OneToOne(mappedBy = "profile")
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "profile")
     private List<Certification> certifications;
 

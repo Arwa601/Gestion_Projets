@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,9 +31,9 @@ public class Domaine_Competence {
     @JoinColumn(name = "projet_id")
     private Projet projet;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "domaine_competence")
-    private List<Competence> competences=new ArrayList<>();;
+    private List<Competence> competences;
 
 
 

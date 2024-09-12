@@ -25,11 +25,16 @@ public class User {
 
     private String  prenom;
 
+    @Column(name = "user_email", nullable = false, unique = true)
+    private String  nomUtilisateur;
+
+    @Column(name = "user_email", nullable = false, unique = true)
     private String email;
 
     private String  login;
 
     private String password;
+
     private Role role;
 
     private Date date_integration;
