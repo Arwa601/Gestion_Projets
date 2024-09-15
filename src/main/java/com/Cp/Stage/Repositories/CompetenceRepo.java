@@ -1,13 +1,10 @@
 package com.Cp.Stage.Repositories;
 
-import com.Cp.Stage.Models.Avancement;
-import com.Cp.Stage.Models.Certification;
-import com.Cp.Stage.Models.Competence;
 import org.springframework.data.repository.ListCrudRepository;
 
-import java.util.List;
+import com.Cp.Stage.Models.Competence;
 
 public interface CompetenceRepo extends ListCrudRepository<Competence,Long> {
-    List<Competence> findByProfil(String nom);
-    Competence findByTitre(String titre);
+    // List<Comspetence> findByProfil(String nom);
+    // Competence findByTitre(String titre);
 }

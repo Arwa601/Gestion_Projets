@@ -1,13 +1,18 @@
 package com.Cp.Stage.Models;
 
 
-import jakarta.persistence.*;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,8 +33,8 @@ public class Projet {
     private List<Profile> profiles;
 
     @OneToMany(mappedBy = "projet")
-    private List<Domaine_Competence> domaines_competences;
+    private List<DomaineCompetence> domaines_competences;
 
     @OneToMany(mappedBy = "projet")
-    private List<Recommandation_Cours> recommandations_cours;
+    private List<RecommandationCours> recommandations_cours;
 }

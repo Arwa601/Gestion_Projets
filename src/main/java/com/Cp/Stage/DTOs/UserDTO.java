@@ -1,8 +1,9 @@
 package com.Cp.Stage.DTOs;
 
-import com.Cp.Stage.Models.Role;
-
 import java.util.Date;
+
+import com.Cp.Stage.Models.ERole;
+
 import lombok.Data;
 
 @Data
@@ -14,7 +15,7 @@ public class UserDTO {
     private String  email;
     private String  login;
     private String  password;
-    private Role   role;
+    private ERole   role;
     private Date date_integration;
 
     // public Long getId() {

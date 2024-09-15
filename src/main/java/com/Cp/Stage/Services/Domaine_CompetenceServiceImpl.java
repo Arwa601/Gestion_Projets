@@ -1,21 +1,20 @@
 package com.Cp.Stage.Services;
 
-import com.Cp.Stage.DTOs.CompetenceDTO;
-import com.Cp.Stage.DTOs.Domaine_CompetenceDTO;
-import com.Cp.Stage.Models.Competence;
-import com.Cp.Stage.Models.Domaine_Competence;
-import com.Cp.Stage.Repositories.Domaine_CompetenceRepo;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.Cp.Stage.DTOs.Domaine_CompetenceDTO;
+import com.Cp.Stage.Models.DomaineCompetence;
+import com.Cp.Stage.Repositories.DomaineCompetenceRepo;
 
 
 @Service
 public class Domaine_CompetenceServiceImpl implements Domaine_CompetenceService{
 
     @Autowired
-    private Domaine_CompetenceRepo domaine_CompetenceRepo;
+    private DomaineCompetenceRepo domaine_CompetenceRepo;
 
     @Override
     public String afficherDescription(String titre){
@@ -25,7 +24,7 @@ public class Domaine_CompetenceServiceImpl implements Domaine_CompetenceService{
     @Override
     public void updateTitre(Long id,String titre){
 
-        Optional<Domaine_Competence> optionalDomaine= domaine_CompetenceRepo.findById(id);
+        Optional<DomaineCompetence> optionalDomaine= domaine_CompetenceRepo.findById(id);
         optionalDomaine.ifPresent(domaineCompetence -> domaineCompetence.setTitre(titre));
 
 
@@ -33,7 +32,7 @@ public class Domaine_CompetenceServiceImpl implements Domaine_CompetenceService{
     @Override
     public void updateDescription(Long id,String descrip){
 
-            Optional<Domaine_Competence> optionalDomaine = domaine_CompetenceRepo.findById(id);
+            Optional<DomaineCompetence> optionalDomaine = domaine_CompetenceRepo.findById(id);
             optionalDomaine.ifPresent(domaineCompetence -> domaineCompetence.setDescription(descrip));
 
      }
@@ -44,7 +43,7 @@ public class Domaine_CompetenceServiceImpl implements Domaine_CompetenceService{
 
     @Override
     public void AjouterDomaine(Domaine_CompetenceDTO domaineCompetenceDTO){
-        Domaine_Competence competence= new Domaine_Competence();
+        DomaineCompetence competence= new DomaineCompetence();
         competence.setId(domaineCompetenceDTO.getId());
         competence.setTitre(domaineCompetenceDTO.getTitre());
         competence.setDescription(domaineCompetenceDTO.getDescription());

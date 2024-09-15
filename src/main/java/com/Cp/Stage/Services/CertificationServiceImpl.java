@@ -1,13 +1,11 @@
 package com.Cp.Stage.Services;
 
-import com.Cp.Stage.DTOs.CertificationDTO;
-import com.Cp.Stage.Models.Avancement;
-import com.Cp.Stage.Models.Certification;
-import com.Cp.Stage.Repositories.CertificationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import com.Cp.Stage.DTOs.CertificationDTO;
+import com.Cp.Stage.Models.Certification;
+import com.Cp.Stage.Repositories.CertificationRepo;
 
 
 @Service
@@ -18,21 +16,21 @@ public class CertificationServiceImpl implements CertificationService{
     @Autowired
     private CertificationRepo certifrepo;
 
-    @Override
-    public Avancement SuiviAvancement(String nom){
-         return ((certifrepo.findByNom(nom)).getAvancement());
-    }
+    // @Override
+    // public Avancement SuiviAvancement(String nom){
+    //      return ((certifrepo.findByNom(nom)).getAvancement());
+    // }
 
 
-    @Override
-    public Date Suivi_Date_prise_Certification(String nom){
-        return ((certifrepo.findByNom(nom)).getDate());
-    }
+    // @Override
+    // public Date Suivi_Date_prise_Certification(String nom){
+    //     return ((certifrepo.findByNom(nom)).getDate());
+    // }
 
-    @Override
-    public String AfficherDescription(String nom){
-        return ((certifrepo.findByNom(nom)).getDescription());
-    }
+    // @Override
+    // public String AfficherDescription(String nom){
+    //     return ((certifrepo.findByNom(nom)).getDescription());
+    // }
 
     @Override
     public void  Ajoutercertif(CertificationDTO certificationDTO){
