@@ -38,10 +38,10 @@ public ProfileDTO getProfileCurrentUser() {
     if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
         String username = authentication.getName();
         
-        User currentUser = userRepo.findFirstByUserName(username);
+        Optional<User> currentUser = userRepo.findFirstByUserName(username);
         
         if (currentUser != null) {
-            Profile profileCurrentUser = currentUser.getProfile();
+            Profile profileCurrentUser = currentUser.get().getProfile();
             
             if (profileCurrentUser != null) {
                 return new ProfileDTO(
@@ -69,17 +69,17 @@ public ResponseEntity<?> updateUserProfile(ProfileDTO profileDTO) {
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             String username = authentication.getName();
             
-            User currentUser = userRepo.findFirstByUserName(username);
+            Optional<User> currentUser = userRepo.findFirstByUserName(username);
             
             if (currentUser != null) {
-                Profile currentProfile = currentUser.getProfile();
+                Profile currentProfile = currentUser.get().getProfile();
                 
                 if (currentProfile != null) {
                     currentProfile.setBrefDescription(profileDTO.getBrefDescription());
                     currentProfile.setCentreInteret(profileDTO.getCentreInteret());
                     currentProfile.setPointsForts(profileDTO.getPointsForts());
                     if (profileDTO.getPassword() != null && !profileDTO.getPassword().isEmpty()) {
-                        currentUser.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
+                        currentUser.get().setPassword(passwordEncoder.encode(profileDTO.getPassword()));
                     }
                     profileRepo.save(currentProfile);
                     
