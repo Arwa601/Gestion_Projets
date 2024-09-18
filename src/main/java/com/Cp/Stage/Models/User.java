@@ -47,7 +47,10 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Column(name = "is_account_activated", nullable = false)
+    private Boolean isAccountActivated;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),
@@ -58,7 +61,7 @@ public class User {
     @Column(name = "date_integration")
     private Date dateIntegration;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     private Profile profile;
 
@@ -66,5 +69,6 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.isAccountActivated = true;
     }
 }

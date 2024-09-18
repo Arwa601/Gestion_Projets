@@ -3,29 +3,13 @@ package com.Cp.Stage.Controllers;
 import java.util.HashSet;
 import java.util.Set;
 
-//Le terme "Rest" fait référence à RESTful (Representational State Transfer),
-// un style d'architecture utilisé pour créer des services web qui communiquent via HTTP.
-
-
-// import org.springframework.web.bind.annotation.CrossOrigin;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
-
-// @RestController
-// //Le terme "Rest" fait référence à RESTful
-// // un style d'architecture utilisé pour créer des services web qui communiquent via HTTP
-// @CrossOrigin(origins = "http://localhost:4200")
-// @RequestMapping("/api")
-// public class AuthController {
-
-// }
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Cp.Stage.DTOs.JwtResponse;
 import com.Cp.Stage.DTOs.LoginRequest;
 import com.Cp.Stage.DTOs.MessageResponse;
 import com.Cp.Stage.DTOs.SignupRequest;
 import com.Cp.Stage.Models.ERole;
+import com.Cp.Stage.Models.Profile;
 import com.Cp.Stage.Models.Role;
 import com.Cp.Stage.Models.User;
 import com.Cp.Stage.Repositories.RoleRepo;
@@ -49,20 +35,20 @@ import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
+  @Autowired
+    UserRepo userRepository;
+
     @Autowired
-     UserRepo userRepository;
+    RoleRepo roleRepository;
 
-     @Autowired
-     RoleRepo roleRepository;
-
-     @Autowired
-     PasswordEncoder encoder;
+    @Autowired
+    PasswordEncoder encoder;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -70,31 +56,37 @@ public class AuthenticationController {
     @Autowired
     private JwtUtils jwtUtil;
 
-    @PostMapping("/signin")
-    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody LoginRequest authenticationRequest) throws Exception {
+  @PostMapping("/auth/signin")
+  public ResponseEntity<?> signin(@Valid @RequestBody LoginRequest authenticationRequest) throws Exception {
+      try {
+          authenticationManager.authenticate(
+              new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword())
+          );
+      } catch (BadCredentialsException e) {
+          throw new Exception("Incorrect username or password", e);
+      }
+
+      final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserName());
+
+
+      final String jwt = jwtUtil.generateJwtToken(userDetails);
+
+      Set<ERole> roles = new HashSet<>();
+      for (GrantedAuthority authority  : userDetails.getAuthorities()) {
         try {
-            // Authentification de l'utilisateur
-            authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationRequest.getUserName(), authenticationRequest.getPassword())
-            );
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+          roles.add(ERole.valueOf(authority.getAuthority()));
+        } catch (IllegalArgumentException  e) {
+          throw new Exception("Role not recognized: " + authority.getAuthority(), e);
         }
+      }
+      JwtResponse jwtResponse = new JwtResponse(jwt,userDetails.getUsername(), roles);
+      return ResponseEntity.ok(jwtResponse);
 
-        // Charger les détails de l'utilisateur après authentification
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserName());
-
-        // Générer le token JWT
-        final String jwt = jwtUtil.generateJwtToken(userDetails);
-
-        return ResponseEntity.ok("Token : " + jwt);
+  }
   
-
-    }
     
-    
-  @PostMapping("/signup")
-  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+  @PostMapping("/auth/createUserAccount")
+  public ResponseEntity<?> createrUserAccoutn(@Valid @RequestBody SignupRequest signUpRequest) {
     System.out.println(signUpRequest.getUserName());
     if (userRepository.existsByUserName(signUpRequest.getUserName())) {
       return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
@@ -106,7 +98,10 @@ public class AuthenticationController {
 
     User user = new User(signUpRequest.getUserName(), signUpRequest.getEmail(),
     encoder.encode(signUpRequest.getPassword()));
-    // System.out.println(user.getUserName());
+    user.setNom(signUpRequest.getNom());
+    user.setPrenom(signUpRequest.getPrenom());
+    user.setDateIntegration(signUpRequest.getDateIntegration());
+
     Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
 
@@ -137,7 +132,12 @@ public class AuthenticationController {
       });
     }
     user.setRoles(roles);
-    System.out.println("Role : " + user.getRoles()); 
+    System.out.println("Role : " + user.getRoles());
+
+    Profile profile = new Profile();
+    profile.setBrefDescription("DEFAULT Desc"); 
+    profile.setUser(user);
+    user.setProfile(profile);
     try {
     userRepository.save(user);
     } catch (Exception e) {

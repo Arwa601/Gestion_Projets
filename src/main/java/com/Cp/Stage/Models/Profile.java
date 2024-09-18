@@ -35,16 +35,16 @@ public class Profile {
     @Column(name = "id")
     private Long id;
 
-    private String bref_description;
+    private String brefDescription;
     @ElementCollection
     //kn mthothch y9olk vous essayez de déclarer un attribut @Basic avec un type conteneur
 
-    private List<String> centre_interet;
+    private List<String> centreInteret;
     @ElementCollection
-    private List<String> points_forts ;
+    private List<String> pointsForts ;
 
-    @Column(name = "photo_profile", nullable = true)
-    private String photo_profile;
+    // @Column(name = "photo_profile", nullable = true)
+    // private String photo_profile;
 
     //whoever owns the foreign key column gets the @JoinColumn annotation.
     @OneToOne(mappedBy = "profile")
@@ -62,7 +62,7 @@ public class Profile {
     private List<Competence> competences;
 
     @ManyToOne
-    @JoinColumn(name = "projet_id")
+    @JoinColumn(name = "projet_id", nullable = true)
     private Projet projet;
 
 

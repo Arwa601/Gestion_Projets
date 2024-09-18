@@ -23,10 +23,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepository.findFirstByUserName(userName);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found", null);
+        User user = userRepository.findFirstByUserName(userName)
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+    if (!user.getIsAccountActivated()) {
+        throw new UsernameNotFoundException("Account is not activated");
+}
+        try{
+            System.out.println(user.getId());
+        
+        } catch (Exception e) {
+        e.printStackTrace();
         }
+        
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
@@ -36,6 +45,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getUserName(), 
                 user.getPassword(), 
                 authorities);
+    }
+
+    public User activateUser(String userName) {
+        User user = userRepository.findFirstByUserName(userName)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        user.setIsAccountActivated(true);
+        return userRepository.save(user);
+    }
+
+    public User deactivateUser(String userName) {
+        User user = userRepository.findFirstByUserName(userName)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        user.setIsAccountActivated(false);
+        return userRepository.save(user);
     }
 }
 

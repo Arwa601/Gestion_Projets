@@ -1,58 +1,34 @@
 package com.Cp.Stage.DTOs;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProfileDTO {
     private Long id;
 
-    private String bref_description;
+    private String brefDescription;
 
+    private List<String> centreInteret;
 
-    private List<String> centre_interet;
+    private List<String> pointsForts;
 
-    private List<String> points_forts ;
+    @JsonIgnore
+    private String  password;
 
-    private String photo_profile;
+    public ProfileDTO(Long id,String brefDescription, List<String> centreInteret, List<String> pointsForts ){
+        this.id=id;
+        this.brefDescription=brefDescription;
+        this.centreInteret=centreInteret;
+        this.pointsForts=pointsForts;
+    }
 
-    // public Long getId() {
-    //     return id;
-    // }
-
-    // public void setId(Long id) {
-    //     this.id = id;
-    // }
-
-    // public String getBref_description() {
-    //     return this.bref_description;
-    // }
-
-    // public void setBref_description(String bref_description) {
-    //     this.bref_description = bref_description;
-    // }
-
-    // public List<String> getCentre_interet() {
-    //     return this.centre_interet;
-    // }
-
-    // public void setCentre_interet(List<String> centre_interet) {
-    //     this.centre_interet = centre_interet;
-    // }
-
-    // public List<String> getPoints_forts() {
-    //     return this.points_forts;
-    // }
-
-    // public void setPoints_forts(List<String> points_forts) {
-    //     this.points_forts = points_forts;
-    // }
-
-    // public String getPhoto_profile() {
-    //     return this.photo_profile;
-    // }
-
-    // public void setPhoto_profile(String photo_profile) {
-    //     this.photo_profile = photo_profile;
-    // }
+    
 }

@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.Cp.Stage.Security.jwt.AuthEntryPointJwt;
 import com.Cp.Stage.Security.jwt.AuthTokenFilter;
@@ -36,8 +38,7 @@ public class WebSecurityConfig {
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
 	}
-
-
+   
 	
 	@Bean
 public DaoAuthenticationProvider authenticationProvider() {
@@ -62,23 +63,40 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration a
 	}
 
 
-	
-	@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable()
+        
+        @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+        .csrf().disable()
+        .cors().and()
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().requestMatchers("/api/auth/**").permitAll()
-        .requestMatchers("/api/test/**").permitAll()
-        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-        .requestMatchers("/api/manager/**").hasRole("MANAGER")
-        .requestMatchers("/api/cap/**").hasAnyRole("EMPLOYEE", "ADMIN","MANAGER")
+        .authorizeHttpRequests()
+        .requestMatchers("/api/auth/**").permitAll()  
+        .requestMatchers("/api/test/**").permitAll()  
+        .requestMatchers("/api/admin/**").hasRole("ADMIN")  
+        .requestMatchers("/api/manager/**").hasRole("MANAGER")  
         .anyRequest().authenticated();
-    
-    http.authenticationProvider(authenticationProvider());
+        
+        http.authenticationProvider(authenticationProvider());
 
-    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    
-    return http.build();
-}
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        
+        return http.build();
+    }
+
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*");
+                        // .allowCredentials(true);
+            }
+        };
+    }
 }
