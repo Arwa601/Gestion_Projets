@@ -74,8 +74,8 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration a
         .authorizeHttpRequests()
         .requestMatchers("/api/auth/**").permitAll()  
         .requestMatchers("/api/test/**").permitAll()  
-        .requestMatchers("/api/admin/**").hasRole("ADMIN")  
-        .requestMatchers("/api/manager/**").hasRole("MANAGER")  
+        .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")  
+        .requestMatchers("/api/manager/**").hasAnyAuthority("ROLE_MANAGER","ROLE_ADMIN")  
         .anyRequest().authenticated();
         
         http.authenticationProvider(authenticationProvider());

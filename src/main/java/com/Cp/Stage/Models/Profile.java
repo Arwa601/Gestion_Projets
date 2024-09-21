@@ -65,6 +65,9 @@ public class Profile {
     @JoinColumn(name = "projet_id", nullable = true)
     private Projet projet;
 
+    @OneToOne(mappedBy = "manager")
+    private Projet projetGere;
+
 
 
 }

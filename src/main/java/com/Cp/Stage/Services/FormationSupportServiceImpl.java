@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Cp.Stage.DTOs.Formation_SupportDTO;
-import com.Cp.Stage.Models.Formation_Support;
+import com.Cp.Stage.Models.FormationSupport;
 import com.Cp.Stage.Repositories.FormationSupportRepo;
 
 @Service
 
-public class Formation_SupportServiceImpl implements Formation_SupportService{
+public class FormationSupportServiceImpl implements FormationSupportService{
 
 
     @Autowired
@@ -21,7 +21,7 @@ public class Formation_SupportServiceImpl implements Formation_SupportService{
     @Override
     public void AjouterFormation(Formation_SupportDTO formationSupportDTO){
 
-        Formation_Support form= new Formation_Support();
+        FormationSupport form= new FormationSupport();
         form.setId(formationSupportDTO.getId());
         form.setTitre(formationSupportDTO.getTitre());
         form.setLien_vers_formation(formationSupportDTO.getLien_vers_formation());
@@ -30,13 +30,13 @@ public class Formation_SupportServiceImpl implements Formation_SupportService{
     @Override
     public void UpdateNomFormation(Long id,String nom){
 
-        Optional<Formation_Support> optionalFormationSupport =formationSupportRepo.findById(id);
+        Optional<FormationSupport> optionalFormationSupport =formationSupportRepo.findById(id);
         optionalFormationSupport.ifPresent(form -> form.setTitre(nom));
     }
     @Override
     public void UpdateLienFormation(Long id,String lien){
 
-        Optional<Formation_Support> optionalFormationSupport =formationSupportRepo.findById(id);
+        Optional<FormationSupport> optionalFormationSupport =formationSupportRepo.findById(id);
         optionalFormationSupport.ifPresent(form -> form.setLien_vers_formation(lien));
     }
 

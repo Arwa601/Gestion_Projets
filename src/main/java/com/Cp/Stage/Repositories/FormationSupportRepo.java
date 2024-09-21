@@ -3,8 +3,8 @@ package com.Cp.Stage.Repositories;
 
 import org.springframework.data.repository.ListCrudRepository;
 
-import com.Cp.Stage.Models.Formation_Support;
+import com.Cp.Stage.Models.FormationSupport;
 
-public interface FormationSupportRepo extends ListCrudRepository<Formation_Support,Long> {
+public interface FormationSupportRepo extends ListCrudRepository<FormationSupport,Long> {
 
 }

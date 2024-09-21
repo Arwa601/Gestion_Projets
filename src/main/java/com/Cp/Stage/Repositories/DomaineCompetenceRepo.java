@@ -1,12 +1,18 @@
 package com.Cp.Stage.Repositories;
 
-import org.springframework.data.repository.ListCrudRepository;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.Cp.Stage.Models.DomaineCompetence;
+import com.Cp.Stage.Models.Projet;
 
-public interface DomaineCompetenceRepo extends ListCrudRepository<DomaineCompetence,Long> {
+@Repository
+public interface DomaineCompetenceRepo extends JpaRepository<DomaineCompetence, Long> {
 
-    // List<Domaine_Competence> findByprofil(String nom);
-    DomaineCompetence findByTitre(String titre);
+    List<DomaineCompetence> findByProjet(Projet projet);
+    List<DomaineCompetence> findByProjetId(Long id);
+    // DomaineCompetence findByTitre(String titre);
 
 }

@@ -1,12 +1,14 @@
 package com.Cp.Stage.DTOs;
 
-
 import lombok.Data;
 
 @Data
-public class CompetenceDTO {
+public class DomaineCompetenceDTO {
+
     private Long id;
+
     private String titre;
-    private Integer niveau;
+    private String description;
+    private String nomProjet;
 
 }

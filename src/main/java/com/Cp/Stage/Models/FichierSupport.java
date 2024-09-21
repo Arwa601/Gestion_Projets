@@ -1,5 +1,7 @@
 package com.Cp.Stage.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,7 +34,10 @@ public class FichierSupport {
     @Column
     private String nom_fichier;
 
-
+    @Column
+    private String fichier;
+    
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "competence_id")
     private Competence competence;

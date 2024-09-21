@@ -1,5 +1,7 @@
 package com.Cp.Stage.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +33,7 @@ public class RecommandationCours {
     @Column
     private String lien_vers_formation;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "projet_id")
     private Projet projet;

@@ -34,6 +34,7 @@ public class DomaineCompetence {
     @Column
     private String description;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "projet_id")
     private Projet projet;

@@ -34,7 +34,7 @@ public class Competence {
     private String titre;
 
     @Column
-    private String niveau;
+    private Integer niveau;
 
     @ManyToMany(mappedBy = "competences")
     private List<Profile> profiles;
@@ -50,6 +50,6 @@ public class Competence {
 
     @JsonIgnore
     @OneToMany(mappedBy = "competence")
-    private List<Formation_Support> formations_supports=new ArrayList<>();
+    private List<FormationSupport> formations_supports=new ArrayList<>();
 
 }
