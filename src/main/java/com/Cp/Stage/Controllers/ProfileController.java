@@ -25,7 +25,7 @@ public class ProfileController {
     @Autowired
     ProfileService profileService;
     
-@GetMapping("/")
+@GetMapping("/profile")
 public ResponseEntity<ProfileDTO> getProfile() {
         try {
             ProfileDTO profile = profileService.getProfileCurrentUser();
@@ -40,16 +40,23 @@ public ResponseEntity<ProfileDTO> getProfile() {
             }
         }
     }
-@RequestMapping(value = "/update", method = RequestMethod.OPTIONS)
+@RequestMapping(value = "/profile/update", method = RequestMethod.OPTIONS)
 public ResponseEntity<?> handleOptionsRequest() {
     return ResponseEntity.ok().build();
 }
     
-@PutMapping("/update")
+@PutMapping("/profile/update")
 public ResponseEntity<?> updateProfil(@RequestBody ProfileDTO profileDTO) {
-    profileService.updateUserProfile(profileDTO);
-    return new ResponseEntity<>(profileService.getProfileById(profileDTO.getId()), HttpStatus.OK);
+    try {
+        profileService.updateUserProfile(profileDTO);
+        ProfileDTO updatedProfile = profileService.getProfileById(profileDTO.getId());
+        return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
+    } catch (RuntimeException e) {
+        // Handle error with custom message
+        return new ResponseEntity<>("Error updating profile: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
+
 
 @GetMapping("/admin/profile/employees/not-assigned")
 public ResponseEntity<List<ProfileEmployeeDTO>> getEmployeesNotAssignedToAnyProject() {

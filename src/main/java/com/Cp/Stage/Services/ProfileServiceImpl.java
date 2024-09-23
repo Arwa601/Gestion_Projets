@@ -72,7 +72,9 @@ public ProfileDTO getProfileCurrentUser() {
 
 @Override
 public ResponseEntity<?> updateUserProfile(ProfileDTO profileDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // Vérifier si l'utilisateur est authentifié et que ce n'est pas une authentification anonyme
         if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -100,6 +102,10 @@ public ResponseEntity<?> updateUserProfile(ProfileDTO profileDTO) {
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Unauthorized"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating profile", e);
+        }
+        
 }
 
 public ProfileDTO getProfileById(Long id) {
