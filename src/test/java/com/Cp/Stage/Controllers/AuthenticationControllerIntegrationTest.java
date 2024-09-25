@@ -52,8 +52,8 @@ public class AuthenticationControllerIntegrationTest {
     @Test
     public void testCreateUserAccount() throws Exception {
         SignupRequest signupRequest = new SignupRequest();
-        signupRequest.setUserName("testuser666");
-        signupRequest.setEmail("testuser666@example.com");
+        signupRequest.setUserName("testuser66665q8");
+        signupRequest.setEmail("testuser66665q@example.com");
         signupRequest.setPassword("password");
         signupRequest.setNom("Test");
         signupRequest.setPrenom("User");
@@ -69,7 +69,7 @@ public class AuthenticationControllerIntegrationTest {
     @Test
     public void testSignIn() throws Exception {
         
-        User user = new User("signintest", "signintest@example.com", passwordEncoder.encode("password"));
+        User user = new User("signintest221", "signintest221@example.com", passwordEncoder.encode("password"));
         userRepository.save(user);
 
         LoginRequest loginRequest = new LoginRequest();

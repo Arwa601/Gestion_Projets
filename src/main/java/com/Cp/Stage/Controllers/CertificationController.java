@@ -19,14 +19,24 @@ import com.Cp.Stage.DTOs.CertificationDTO;
 import com.Cp.Stage.DTOs.MessageResponse;
 import com.Cp.Stage.Services.CertificationService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/api/certifications")
 public class CertificationController {
 
     @Autowired
     private CertificationService certificationService;
-
-    @GetMapping("/")
+@Operation(summary = "Get all certifications of the current user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Certifications retrieved successfully"),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = MessageResponse.class)))
+    })
+@GetMapping("/")
 public ResponseEntity<?> getUserCertifications() {
     try {
         return certificationService.getCertifsByCurrentUserProfile();
@@ -36,7 +46,11 @@ public ResponseEntity<?> getUserCertifications() {
     }
 }
 
-
+    @Operation(summary = "Add a new certification")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Certification added successfully"),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = MessageResponse.class)))
+    })
     @PostMapping("/add")
     public ResponseEntity<?> addCertification(
         @RequestParam("nom") String nom,
@@ -59,7 +73,12 @@ public ResponseEntity<?> getUserCertifications() {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new MessageResponse("Erreur lors de l'ajout de la certification."));
         }
     }
-
+    @Operation(summary = "Update an existing certification")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Certification updated successfully"),
+        @ApiResponse(responseCode = "404", description = "Certification not found", content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+        @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = MessageResponse.class)))
+    })
     @PutMapping("/update/{id}")
 public ResponseEntity<?> updateCertification(
     @PathVariable Long id,
@@ -84,6 +103,12 @@ public ResponseEntity<?> updateCertification(
     }
 }
 
+@Operation(summary = "Delete a certification by its ID")
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Certification deleted successfully"),
+    @ApiResponse(responseCode = "404", description = "Certification not found", content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+    @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = MessageResponse.class)))
+})
 @DeleteMapping("/delete/{id}")
 public ResponseEntity<?> deleteCertification(@PathVariable Long id) {
     try {

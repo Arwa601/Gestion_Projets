@@ -28,9 +28,9 @@ public class ProjetServiceImpl implements ProjetService{
             projet.setNom(projetDTO.getNom());
             projet.setDetails_projet(projetDTO.getDetails_projet());
             projetRepository.save(projet);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Projet ajouté avec succès!");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Project added successfully!");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout du projet.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error.");
         }
     }
     @Override

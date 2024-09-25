@@ -72,6 +72,8 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration a
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeHttpRequests()
+        .requestMatchers("/v3/**").permitAll() 
+        .requestMatchers("/swagger-ui/**").permitAll() 
         .requestMatchers("/api/auth/**").permitAll()  
         .requestMatchers("/api/test/**").permitAll()  
         .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")  

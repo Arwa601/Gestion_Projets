@@ -14,6 +14,12 @@ import com.Cp.Stage.Models.Projet;
 import com.Cp.Stage.Models.RecommandationCours;
 import com.Cp.Stage.Repositories.ProjetRepo;
 import com.Cp.Stage.Repositories.RecommandationCoursRepo;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @Service
 public class RecommandationCoursServiceImpl {
 
@@ -27,7 +33,16 @@ public class RecommandationCoursServiceImpl {
     private ProfileServiceImpl profileService;
 
     
-
+    @Operation(summary = "Add a new recommendation for a course")
+        @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Recommandation added successfully", 
+                        content = {@Content(mediaType = "application/json", 
+                        schema = @Schema(implementation = String.class))}),
+            @ApiResponse(responseCode = "404", description = "Project not found", 
+                        content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", 
+                        content = @Content)
+        })
     public ResponseEntity<?> addRecommandationCours(RecommandationCoursDTO recommandationCoursDTO) {
         try {
             RecommandationCours recommandationCours = new RecommandationCours();
@@ -47,6 +62,16 @@ public class RecommandationCoursServiceImpl {
         }
     }
 
+    @Operation(summary = "Update an existing recommendation")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recommandation updated successfully", 
+                     content = {@Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = String.class))}),
+        @ApiResponse(responseCode = "404", description = "Recommandation not found", 
+                     content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", 
+                     content = @Content)
+    })
     public ResponseEntity<?> updateRecommandationCours(Long recommandationId, RecommandationCoursDTO recommandationCoursDTO) {
         try {
             Optional<RecommandationCours> recommandationOpt = recommandationCoursRepository.findById(recommandationId);
@@ -63,6 +88,16 @@ public class RecommandationCoursServiceImpl {
         }
     }
 
+    @Operation(summary = "Delete a recommendation by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recommandation deleted successfully", 
+                     content = {@Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = String.class))}),
+        @ApiResponse(responseCode = "404", description = "Recommandation not found", 
+                     content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", 
+                     content = @Content)
+    })
     public ResponseEntity<?> deleteRecommandationCours(Long recommandationId) {
         try {
             Optional<RecommandationCours> recommandationOpt = recommandationCoursRepository.findById(recommandationId);
@@ -76,6 +111,16 @@ public class RecommandationCoursServiceImpl {
         }
     }
 
+    @Operation(summary = "Get a recommendation by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recommandation retrieved successfully", 
+                     content = {@Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = RecommandationCoursDTO.class))}),
+        @ApiResponse(responseCode = "404", description = "Recommandation not found", 
+                     content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", 
+                     content = @Content)
+    })
     public ResponseEntity<?> getRecommandationById(Long recommandationId) {
         try {
             Optional<RecommandationCours> recommandationOpt = recommandationCoursRepository.findById(recommandationId);
@@ -88,6 +133,16 @@ public class RecommandationCoursServiceImpl {
         }
     }
 
+    @Operation(summary = "Get all recommendations for the current user's project")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recommandations retrieved successfully", 
+                     content = {@Content(mediaType = "application/json", 
+                     schema = @Schema(implementation = RecommandationCoursDTO.class))}),
+        @ApiResponse(responseCode = "404", description = "Project not found", 
+                     content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal server error", 
+                     content = @Content)
+    })
     public ResponseEntity<?> getAllRecommandationsForProject() {
         try {
             Optional<Projet> projetOpt = profileService.getCurrentUserProject();

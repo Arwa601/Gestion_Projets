@@ -31,11 +31,14 @@ import com.Cp.Stage.Repositories.UserRepo;
 import com.Cp.Stage.Security.jwt.JwtUtils;
 import com.Cp.Stage.Services.UserDetailsServiceImpl;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Authentication", description = "API for authentication operations")
 public class AuthenticationController {
 
     @Autowired
@@ -56,6 +59,7 @@ public class AuthenticationController {
     @Autowired
     private JwtUtils jwtUtil;
 
+  @Operation(summary = "Sign in a user", description = "Authenticate a user and return a JWT token.")
   @PostMapping("/auth/signin")
   public ResponseEntity<?> signin(@Valid @RequestBody LoginRequest authenticationRequest) throws Exception {
       try {
@@ -84,7 +88,7 @@ public class AuthenticationController {
 
   }
   
-    
+  @Operation(summary = "Create a user account", description = "Register a new user account with specified roles.")
   @PostMapping("/auth/createUserAccount")
   public ResponseEntity<?> createrUserAccoutn(@Valid @RequestBody SignupRequest signUpRequest) {
     System.out.println(signUpRequest.getUserName());
