@@ -60,7 +60,7 @@ public class ProjetServiceImplTest {
         ResponseEntity<?> response = projetService.addProjet(projetDTO);
         
         assertEquals(201, response.getStatusCodeValue());
-        assertEquals("Projet ajouté avec succès!", response.getBody());
+        assertEquals("Project added successfully!", response.getBody());
     }
 
     @Test
