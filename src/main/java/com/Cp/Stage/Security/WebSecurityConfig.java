@@ -72,6 +72,7 @@ public AuthenticationManager authenticationManager(AuthenticationConfiguration a
         .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeHttpRequests()
+        .requestMatchers("/actuator/health/**").permitAll()
         .requestMatchers("/v3/**").permitAll() 
         .requestMatchers("/swagger-ui/**").permitAll() 
         .requestMatchers("/api/auth/**").permitAll()  
