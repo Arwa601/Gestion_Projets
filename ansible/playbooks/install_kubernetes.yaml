@@ -1,0 +1,72 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Mise à jour des paquets
+      apt:
+        update_cache: yes
+    
+    - name: Installer les dépendances
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Ajouter la clé GPG de Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Ajouter le dépôt Docker
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+    
+    - name: Installer Docker
+      apt:
+        name: docker-ce
+        state: present
+    
+    - name: Activer et démarrer Docker
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+    
+    - name: Ajouter la clé GPG de Kubernetes
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: Ajouter le dépôt Kubernetes
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+    
+    - name: Installer kubelet, kubeadm, and kubectl
+      apt:
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+        force_apt_get: true
+    
+    - name: Démarrer kubelet
+      systemd:
+        name: kubelet
+        enabled: true
+        state: started
+    
+    - name: Désactiver le swap (nécessaire pour Kubernetes)
+      command: swapoff -a
+    
+    - name: Installer Minikube
+      shell: curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
+             && chmod +x minikube && sudo install minikube /usr/local/bin/
+    
+    - name: Initialiser le cluster Minikube
+      shell: minikube start --driver=none
