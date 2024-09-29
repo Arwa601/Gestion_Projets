@@ -6,40 +6,40 @@
       apt:
         update_cache: yes
     
-    - name: Installer les dépendances
-      apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
-        state: present
+    # - name: Installer les dépendances
+    #   apt:
+    #     name:
+    #       - apt-transport-https
+    #       - ca-certificates
+    #       - curl
+    #       - software-properties-common
+    #     state: present
 
-    - name: Ajouter la clé GPG de Docker
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
+    # - name: Ajouter la clé GPG de Docker
+    #   apt_key:
+    #     url: https://download.docker.com/linux/ubuntu/gpg
+    #     state: present
 
-    - name: Ajouter le dépôt Docker
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
-        state: present
+    # - name: Ajouter le dépôt Docker
+    #   apt_repository:
+    #     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    #     state: present
     
-    - name: Installer Docker
-      apt:
-        name: docker-ce
-        state: present
+    # - name: Installer Docker
+    #   apt:
+    #     name: docker-ce
+    #     state: present
     
-    - name: Activer et démarrer Docker
-      systemd:
-        name: docker
-        enabled: true
-        state: started
+    # - name: Activer et démarrer Docker
+    #   systemd:
+    #     name: docker
+    #     enabled: true
+    #     state: started
     
-    - name: Ajouter la clé GPG de Kubernetes
-      apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        state: present
+    # - name: Ajouter la clé GPG de Kubernetes
+    #   apt_key:
+    #     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    #     state: present
 
     - name: Ajouter le dépôt Kubernetes
       apt_repository:
