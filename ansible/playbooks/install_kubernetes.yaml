@@ -41,10 +41,10 @@
     #     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     #     state: present
 
-    #- name: Ajouter le dépôt Kubernetes
-      #apt_repository:
-        #repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
-        #state: present
+    - name: Ajouter le dépôt Kubernetes
+      apt_repository:
+        repo: "deb https://apt.kubernetes.io/ kubernetes-focal main
+        state: present
     
     - name: Installer kubelet, kubeadm, and kubectl
       apt:
