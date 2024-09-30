@@ -43,7 +43,9 @@
 
     - name: Ajouter le dépôt Kubernetes
       apt_repository:
-        repo: deb http://apt.kubernetes.io/ kubernetes-focal main
+        shell: cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+              deb https://apt.kubernetes.io/ kubernetes-xenial main
+              EOF
         state: present
     
     - name: Installer kubelet, kubeadm, and kubectl
