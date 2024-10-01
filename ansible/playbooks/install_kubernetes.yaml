@@ -43,7 +43,7 @@
 
     - name: Ajouter le dépôt Kubernetes
       apt_repository:
-        repo: "deb https://apt.kubernetes.io/ kubernetes-focal main
+        repo: "deb https://apt.kubernetes.io/ kubernetes-focal main"
         state: present
         filename: "kubernetes.list"
     
