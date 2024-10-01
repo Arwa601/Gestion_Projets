@@ -37,15 +37,18 @@
     #     state: started
     
     - name: Ajouter la clé GPG de Kubernetes
-      apt_key:
-        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        state: present
+      shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
 
     - name: Ajouter le dépôt Kubernetes
       apt_repository:
-        repo: "deb https://apt.kubernetes.io/ kubernetes-focal main"
+        repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
         state: present
         filename: "kubernetes.list"
+        
+    - name: Mettre à jour la liste des paquets
+      apt:
+        update_cache: yes
     
     - name: Installer kubelet, kubeadm, and kubectl
       apt:
