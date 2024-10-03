@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: zaidbr/mydockerrepo:latest # Remplacez par votre image réelle
+        ports:
+        - containerPort: 8085
+        env:
+        # Variables d'environnement pour la base de données
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://projet_stage_glsi-db-1:3306/db
+        - name: SPRING_DATASOURCE_USERNAME
+          value: user
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: password
+        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          value: update
+
+        # Variables pour le secret et l'expiration des JWT
+        - name: STAGE_APP_JWT_SECRET
+          value: stageSecretKey
+        - name: STAGE_APP_JWT_EXPIRATION_MS
+          value: "3600000"
+        - name: STAGE_APP_JWT_REFRESH_EXPIRATION_MS
+          value: "86400000"
+
+        # Configuration du driver MySQL
+        - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+          value: com.mysql.cj.jdbc.Driver
+
+        # Paramètres du dialecte Hibernate
+        - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+          value: org.hibernate.dialect.MySQLDialect
+
+        # Paramètres pour le téléchargement des fichiers
+        - name: FILE_UPLOAD_DIR
+          value: uploads/
+        - name: FILE_UPLOAD_DIR_SUPPORT_FILE
+          value: uploads/supportFileForCompetence
+
+        # Autres propriétés
+        - name: SPRING_SERVLET_MULTIPART_ENABLED
+          value: "true"
+        - name: SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE
+          value: 10MB
+        - name: SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE
+          value: 10MB
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  type: LoadBalancer  # Expose le backend en tant que service externe
+  ports:
+  - port: 8085
+    targetPort: 8085  # Mappé au port d'exposition du conteneur
+  selector:
+    app: backend

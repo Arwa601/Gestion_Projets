@@ -2,9 +2,9 @@
 - hosts: all
   become: true
   tasks:
-    - name: Mise à jour des paquets
-      apt:
-        update_cache: yes
+    # - name: Mise à jour des paquets
+    #   apt:
+    #     update_cache: yes
     
     # - name: Installer les dépendances
     #   apt:
@@ -37,7 +37,7 @@
     #     state: started
     
     # - name: Ajouter la clé GPG de Kubernetes
-    #   shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      # shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 
     # - name: Ajouter le dépôt Kubernetes
@@ -46,9 +46,9 @@
     #     state: present
     #     filename: "kubernetes.list"
         
-    - name: Mettre à jour la liste des paquets
-      apt:
-        update_cache: yes
+    # - name: Mettre à jour la liste des paquets
+    #   apt:
+    #     update_cache: yes
     
     # - name: Installer kubelet, kubeadm, and kubectl
     #   apt:
@@ -68,9 +68,6 @@
     # - name: Désactiver le swap (nécessaire pour Kubernetes)
     #   command: swapoff -a
     
-    - name: Installer Minikube
-      shell: curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 \
-             && chmod +x minikube && sudo install minikube /usr/local/bin/
-    
+ 
     - name: Initialiser le cluster Minikube
       shell: minikube start --driver=docker
