@@ -1,7 +1,8 @@
 ---
 - name: Deploy to Kubernetes
   hosts: all
-  become: true
+  # become: true
+  become_user: zaidbr
   vars:
     kubernetes_deployments_dir: "../../kubernetes/deployments"
   tasks:
