@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    kubernetes_deployments_dir: "/workspace/My_Pipeline/kubernetes/deployments"
+    kubernetes_deployments_dir: "../../kubernetes/deployments"
   tasks:
     - name: Deploy MySQL to Kubernetes
       ansible.builtin.command:
