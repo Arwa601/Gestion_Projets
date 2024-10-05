@@ -8,11 +8,20 @@
   tasks:
     # - name: Initialiser le cluster Minikube
     #   shell: "export PATH=$PATH:/usr/local/bin && minikube start --driver=docker"
-
+    - name: Copier le fichier de déploiement MySQL vers la VM
+      ansible.builtin.copy:
+        src: "../../kubernetes/deployments/mysql-deployment.yaml"
+        dest: "/home/zaidbr/kubernetes_deployments/mysql-deployment.yaml"
+    
+    - name: Copier le fichier de déploiement Back-end vers la VM
+      ansible.builtin.copy:
+        src: "../../kubernetes/deployments/backend-deployment.yaml"
+        dest: "/home/zaidbr/kubernetes_deployments/backend-deployment.yaml"
+      
     - name: Deploy MySQL to Kubernetes
       ansible.builtin.shell: |
         export PATH=$PATH:/usr/local/bin
-        kubectl apply -f {{ kubernetes_deployments_dir }}/mysql-deployment.yaml
+        kubectl apply -f /home/zaidbr/kubernetes_deployments/mysql-deployment.yaml
       register: mysql_output
 
     - name: Show MySQL Deployment Status
@@ -20,8 +29,9 @@
         msg: "{{ mysql_output.stdout }}"
 
     - name: Deploy Backend to Kubernetes
-      ansible.builtin.command:
-        cmd: "export PATH=$PATH:/usr/local/bin && kubectl apply -f {{ kubernetes_deployments_dir }}/backend-deployment.yaml"
+      ansible.builtin.shell: |
+        export PATH=$PATH:/usr/local/bin
+        kubectl apply -f /home/zaidbr/kubernetes_deployments/backend-deployment.yaml
       register: backend_output
 
     - name: Show Backend Deployment Status
