@@ -59,11 +59,11 @@
     #     state: present
     #     force_apt_get: true
     
-    - name: Démarrer kubelet
-      systemd:
-        name: kubelet
-        enabled: true
-        state: started
+    # - name: Démarrer kubectl
+    #   systemd:
+    #     name: kubectl
+    #     enabled: true
+    #     state: started
     
     # - name: Désactiver le swap (nécessaire pour Kubernetes)
     #   command: swapoff -a
