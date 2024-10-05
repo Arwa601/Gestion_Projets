@@ -6,8 +6,8 @@
   vars:
     kubernetes_deployments_dir: "../../kubernetes/deployments"
   tasks:
-    - name: Initialiser le cluster Minikube
-      shell: "export PATH=$PATH:/usr/local/bin && minikube start --driver=docker"
+    # - name: Initialiser le cluster Minikube
+    #   shell: "export PATH=$PATH:/usr/local/bin && minikube start --driver=docker"
 
     - name: Deploy MySQL to Kubernetes
       ansible.builtin.command:
