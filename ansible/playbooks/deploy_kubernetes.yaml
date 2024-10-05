@@ -5,6 +5,9 @@
   vars:
     kubernetes_deployments_dir: "../../kubernetes/deployments"
   tasks:
+    - name: Initialiser le cluster Minikube
+      shell: minikube start --driver=docker
+      
     - name: Deploy MySQL to Kubernetes
       ansible.builtin.command:
         cmd: "kubectl apply -f {{ kubernetes_deployments_dir }}/mysql-deployment.yaml"
