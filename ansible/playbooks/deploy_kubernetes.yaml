@@ -10,8 +10,9 @@
     #   shell: "export PATH=$PATH:/usr/local/bin && minikube start --driver=docker"
 
     - name: Deploy MySQL to Kubernetes
-      ansible.builtin.command:
-        cmd: "export PATH=$PATH:/usr/local/bin && kubectl apply -f {{ kubernetes_deployments_dir }}/mysql-deployment.yaml"
+      ansible.builtin.shell: |
+        export PATH=$PATH:/usr/local/bin
+        kubectl apply -f {{ kubernetes_deployments_dir }}/mysql-deployment.yaml
       register: mysql_output
 
     - name: Show MySQL Deployment Status
