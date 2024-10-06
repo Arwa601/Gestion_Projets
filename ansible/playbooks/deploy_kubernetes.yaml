@@ -12,16 +12,26 @@
     #     minikube start --driver=none
 
 
-    # - name: Copier le fichier de déploiement MySQL vers la VM
-    #   ansible.builtin.copy:
-    #     src: "../../kubernetes/deployments/mysql-deployment.yaml"
-    #     dest: "/home/zaidbr/kubernetes_deployments/mysql-deployment.yaml"
+    - name: Copier le fichier de déploiement MySQL vers la VM
+      ansible.builtin.copy:
+        src: "../../kubernetes/deployments/mysql-deployment.yaml"
+        dest: "/home/zaidbr/kubernetes_deployments/mysql-deployment.yaml"
     
-    # - name: Copier le fichier de déploiement Back-end vers la VM
-    #   ansible.builtin.copy:
-    #     src: "../../kubernetes/deployments/backend-deployment.yaml"
-    #     dest: "/home/zaidbr/kubernetes_deployments/backend-deployment.yaml"
-      
+    - name: Copier le fichier de déploiement Back-end vers la VM
+      ansible.builtin.copy:
+        src: "../../kubernetes/deployments/backend-deployment.yaml"
+        dest: "/home/zaidbr/kubernetes_deployments/backend-deployment.yaml"
+    
+    - name: Copier le fichier mysql-configmap vers la VM
+      ansible.builtin.copy:
+        src: "../../kubernetes/security/mysql-configmap.yaml"
+        dest: "/home/zaidbr/kubernetes_deployments/mysql-configmap.yaml"
+
+    - name: Copier le fichier mysql-secret vers la VM
+      ansible.builtin.copy:
+        src: "../../kubernetes/security/mysql-secret.yaml"
+        dest: "/home/zaidbr/kubernetes_deployments/mysql-secret.yaml"
+
     - name: Deploy MySQL to Kubernetes
       ansible.builtin.shell: |
         export PATH=$PATH:/usr/local/bin

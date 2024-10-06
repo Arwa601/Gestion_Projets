@@ -16,13 +16,13 @@ spec:
     spec:
       containers:
       - name: backend
-        image: zaidbr/mydockerrepo:latest # Remplacez par votre image réelle
+        image: zaidbr/mydockerrepo:latest 
         ports:
         - containerPort: 8085
         env:
         # Variables d'environnement pour la base de données
         - name: SPRING_DATASOURCE_URL
-          value: jdbc:mysql://projet_stage_glsi-db-1:3306/db
+          value: jdbc:mysql://mysql-service:3306/db
         - name: SPRING_DATASOURCE_USERNAME
           value: user
         - name: SPRING_DATASOURCE_PASSWORD
