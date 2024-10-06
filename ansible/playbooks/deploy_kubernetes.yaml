@@ -32,6 +32,13 @@
         src: "../../kubernetes/security/mysql-secret.yaml"
         dest: "/home/zaidbr/kubernetes_deployments/mysql-secret.yaml"
 
+    - name: Apply config map and secret on the cluster
+      ansible.builtin.shell: |
+        export PATH=$PATH:/usr/local/bin
+        kubectl apply -f /home/zaidbr/kubernetes_deployments/mysql-secret.yaml
+        kubectl apply -f /home/zaidbr/kubernetes_deployments/mysql-configmap.yaml
+
+
     - name: Deploy MySQL to Kubernetes
       ansible.builtin.shell: |
         export PATH=$PATH:/usr/local/bin
