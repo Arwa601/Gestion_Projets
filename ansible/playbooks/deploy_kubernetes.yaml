@@ -60,7 +60,7 @@
         sudo systemctl start kubectl-port-forward.service
         sudo systemctl enable kubectl-port-forward.service
       become: true  # Nécessaire pour exécuter les commandes système
-      when: backend_output is succeeded
+      # when: backend_output is succeeded
 
     - name: Show Backend Deployment Status
       ansible.builtin.debug:
