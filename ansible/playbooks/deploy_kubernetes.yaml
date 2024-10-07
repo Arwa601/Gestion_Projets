@@ -52,7 +52,7 @@
     - name: Deploy Backend to Kubernetes
       ansible.builtin.shell: |
         export PATH=$PATH:/usr/local/bin
-        kubectl apply -f {{ kubernetes_deployments_dir }}/backend-deployment.yaml
+        kubectl apply -f /home/zaidbr/kubernetes_deployments/backend-deployment.yaml
       register: backend_output
 
     - name: Start kubectl port-forward service
