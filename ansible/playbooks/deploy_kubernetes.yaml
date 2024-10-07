@@ -1,7 +1,7 @@
 ---
 - name: Deploy to Kubernetes
   hosts: all
-  # become: true
+  become: true
   become_user: zaidbr
   vars:
     kubernetes_deployments_dir: "../../kubernetes/deployments"
@@ -52,10 +52,15 @@
     - name: Deploy Backend to Kubernetes
       ansible.builtin.shell: |
         export PATH=$PATH:/usr/local/bin
-        kubectl apply -f /home/zaidbr/kubernetes_deployments/backend-deployment.yaml
+        kubectl apply -f {{ kubernetes_deployments_dir }}/backend-deployment.yaml
+      register: backend_output
+
+    - name: Start kubectl port-forward service
+      ansible.builtin.shell: |
         sudo systemctl start kubectl-port-forward.service
         sudo systemctl enable kubectl-port-forward.service
-      register: backend_output
+      become: true  # Nécessaire pour exécuter les commandes système
+      when: backend_output is succeeded
 
     - name: Show Backend Deployment Status
       ansible.builtin.debug:
