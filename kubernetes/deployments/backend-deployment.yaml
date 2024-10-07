@@ -66,7 +66,7 @@ kind: Service
 metadata:
   name: backend-service
 spec:
-  type: LoadBalancer  # Expose le backend en tant que service externe
+  type: NodePort
   ports:
   - port: 8085
     targetPort: 8085  # Mappé au port d'exposition du conteneur
