@@ -70,4 +70,6 @@
     
  
     - name: Initialiser le cluster Minikube
-      shell: minikube start --driver=docker
+      ansible.builtin.shell: |
+        export PATH=$PATH:/usr/local/bin
+        minikube start --driver=none
