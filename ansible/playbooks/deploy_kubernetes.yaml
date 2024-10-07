@@ -53,6 +53,8 @@
       ansible.builtin.shell: |
         export PATH=$PATH:/usr/local/bin
         kubectl apply -f /home/zaidbr/kubernetes_deployments/backend-deployment.yaml
+        sudo systemctl start kubectl-port-forward.service
+        sudo systemctl enable kubectl-port-forward.service
       register: backend_output
 
     - name: Show Backend Deployment Status
